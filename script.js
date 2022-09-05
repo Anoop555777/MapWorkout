@@ -80,6 +80,7 @@ class App {
     this._getGeolocation();
     form.addEventListener('submit', this._newWorkout.bind(this));
     inputType.addEventListener('change', this._toggleElementField);
+    containerWorkouts.addEventListener('click', this._moveToPopup.bind(this));
   }
 
   _getGeolocation() {
@@ -154,7 +155,6 @@ class App {
 
     //add new object on workout array
     this.#workout.push(workout);
-    console.log(this.#workout);
 
     //Render workout map
     this._renderWorkoutMarker(workout);
@@ -174,7 +174,7 @@ class App {
           minWidth: 100,
           autoClose: false,
           closeOnClick: false,
-          className: 'running-popup',
+          className: `${workout.type}-popup`,
         })
       )
       .setPopupContent(
@@ -246,6 +246,25 @@ class App {
     form.classList.add('hidden');
 
     setTimeout(() => (form.style.display = 'grid'), 1000);
+  }
+
+  _moveToPopup(e) {
+    const workoutEl = e.target.closest('.workout');
+
+    if (!workoutEl) return;
+    const workout = this.#workout.find(el => el.id === workoutEl.dataset.id);
+
+    if (!workout) return;
+
+    this.#map.setView(workout.coords, 13, {
+      animate: true,
+      pan: {
+        duration: 1,
+      },
+    });
+
+    //is running object and we create public API in class
+    workout.click();
   }
 }
 
