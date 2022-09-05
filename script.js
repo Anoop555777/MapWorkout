@@ -77,6 +77,7 @@ class App {
   #mapEvent;
   #workout = [];
   constructor() {
+    this._getLocalStorage();
     this._getGeolocation();
     form.addEventListener('submit', this._newWorkout.bind(this));
     inputType.addEventListener('change', this._toggleElementField);
@@ -102,6 +103,8 @@ class App {
     }).addTo(this.#map);
 
     this.#map.on('click', this._showForm.bind(this));
+
+    this.#workout.forEach(workout => this._renderWorkoutMarker(workout));
   }
 
   _showForm(mapE) {
