@@ -163,6 +163,8 @@ class App {
 
     //hideform
     this._hideForm();
+
+    this._setLocalStorage();
   }
 
   _renderWorkoutMarker(workout) {
@@ -265,6 +267,22 @@ class App {
 
     //is running object and we create public API in class
     workout.click();
+  }
+
+  _setLocalStorage() {
+    localStorage.setItem('workout', JSON.stringify(this.#workout));
+  }
+
+  _getLocalStorage() {
+    const workoutData = JSON.parse(localStorage.getItem('workout'));
+
+    if (!workoutData) return;
+
+    this.#workout = workoutData;
+
+    this.#workout.forEach(workout => this._renderWorkout(workout));
+
+    //we can't use
   }
 }
 
