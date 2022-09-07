@@ -107,6 +107,8 @@ class App {
     this.#workout.forEach(workout => this._renderWorkoutMarker(workout));
   }
 
+  _DeleteRenderUi() {}
+
   _showForm(mapE) {
     this.#mapEvent = mapE;
 
